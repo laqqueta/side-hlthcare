@@ -1,5 +1,6 @@
 package com.laqqueta.healthcare.user.biodata;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laqqueta.healthcare.user.UserModel;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -26,27 +27,31 @@ public class BiodataModel {
     @Column(name = "image_path")
     private String imagePath;
 
+    @OneToOne(mappedBy = "biodata")
+    @JsonIgnore
+    private UserModel user;
+
     @Column(name = "is_deleted", nullable = false)
     @ColumnDefault("false")
     private boolean isDeleted;
 
-    @OneToOne
-    @JoinColumn(name = "created_by", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
     private UserModel createdBy;
 
     @Column(name = "created_on", nullable = false)
     @CreationTimestamp
     private LocalDateTime createdOn;
 
-    @OneToOne
-    @JoinColumn(name = "modified_by")
+    @ManyToOne
+    @JoinColumn(name = "modified_by", referencedColumnName = "id")
     private UserModel modifiedBy;
 
     @Column(name = "modified_on")
     private LocalDateTime modifiedOn;
 
-    @OneToOne
-    @JoinColumn(name = "deleted_by")
+    @ManyToOne
+    @JoinColumn(name = "deleted_by", referencedColumnName = "id")
     private UserModel deletedBy;
 
     @Column(name = "deleted_on")
@@ -146,5 +151,13 @@ public class BiodataModel {
 
     public void setDeletedOn(LocalDateTime deletedOn) {
         this.deletedOn = deletedOn;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 }

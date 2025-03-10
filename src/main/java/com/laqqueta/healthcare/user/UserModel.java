@@ -16,11 +16,11 @@ public class UserModel {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private RoleModel role;
 
     @OneToOne
-    @JoinColumn(name = "biodata_id")
+    @JoinColumn(name = "biodata_id", referencedColumnName = "id")
     private BiodataModel biodata;
 
     @Column(name = "email", length = 100)
@@ -39,23 +39,23 @@ public class UserModel {
     @ColumnDefault("false")
     private boolean isDeleted;
 
-    @OneToOne
-    @JoinColumn(name = "created_by", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
     private UserModel createdBy;
 
     @Column(name = "created_on", nullable = false)
     @CreationTimestamp
     private LocalDateTime createdOn;
 
-    @OneToOne
-    @JoinColumn(name = "modified_by")
+    @ManyToOne
+    @JoinColumn(name = "modified_by", referencedColumnName = "id")
     private UserModel modifiedBy;
 
     @Column(name = "modified_on")
     private LocalDateTime modifiedOn;
 
-    @OneToOne
-    @JoinColumn(name = "deleted_by")
+    @ManyToOne
+    @JoinColumn(name = "deleted_by", referencedColumnName = "id")
     private UserModel deletedBy;
 
     @Column(name = "deleted_on")
