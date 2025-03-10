@@ -1,4 +1,4 @@
-package com.laqqueta.healthcare.user.biodata;
+package com.laqqueta.healthcare.biodata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laqqueta.healthcare.user.UserModel;

@@ -1,4 +1,4 @@
-package com.laqqueta.healthcare.user.role;
+package com.laqqueta.healthcare.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laqqueta.healthcare.user.UserModel;

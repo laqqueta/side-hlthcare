@@ -1,7 +1,7 @@
 package com.laqqueta.healthcare.user;
 
-import com.laqqueta.healthcare.user.biodata.BiodataModel;
-import com.laqqueta.healthcare.user.role.RoleModel;
+import com.laqqueta.healthcare.biodata.BiodataModel;
+import com.laqqueta.healthcare.role.RoleModel;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
