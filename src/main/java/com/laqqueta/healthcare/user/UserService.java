@@ -1,5 +1,6 @@
 package com.laqqueta.healthcare.user;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +17,8 @@ public class UserService {
     public UserModel getById(Long id) {
         Optional<UserModel> user = repository.findById(id);
 
-        return user.orElseThrow();
+        if (user.isEmpty()) throw new EntityNotFoundException();
+
+        return user.get();
     }
 }

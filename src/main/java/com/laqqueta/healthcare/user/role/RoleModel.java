@@ -23,30 +23,27 @@ public class RoleModel {
 
     @OneToOne(mappedBy = "role")
     @JsonIgnore
-    private UserModel user;
+    private UserModel userModel;
 
     @Column(name = "is_deleted", nullable = false)
     @ColumnDefault("false")
     private boolean isDeleted;
 
-    @ManyToOne
-    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
-    private UserModel createdBy;
+    @Column(name = "created_by", nullable = false)
+    private Long createdBy;
 
     @Column(name = "created_on", nullable = false)
     @CreationTimestamp
     private LocalDateTime createdOn;
 
-    @ManyToOne
-    @JoinColumn(name = "modified_by", referencedColumnName = "id")
-    private UserModel modifiedBy;
+    @Column(name = "modified_by")
+    private Long modifiedBy;
 
     @Column(name = "modified_on")
     private LocalDateTime modifiedOn;
 
-    @ManyToOne
-    @JoinColumn(name = "deleted_by", referencedColumnName = "id")
-    private UserModel deletedBy;
+    @Column(name = "deleted_by")
+    private Long deletedBy;
 
     @Column(name = "deleted_on")
     private LocalDateTime deletedOn;
@@ -75,6 +72,14 @@ public class RoleModel {
         this.code = code;
     }
 
+    public UserModel getUserModel() {
+        return userModel;
+    }
+
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
+    }
+
     public boolean isDeleted() {
         return isDeleted;
     }
@@ -83,11 +88,11 @@ public class RoleModel {
         isDeleted = deleted;
     }
 
-    public UserModel getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(UserModel createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -99,11 +104,11 @@ public class RoleModel {
         this.createdOn = createdOn;
     }
 
-    public UserModel getModifiedBy() {
+    public Long getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(UserModel modifiedBy) {
+    public void setModifiedBy(Long modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -115,11 +120,11 @@ public class RoleModel {
         this.modifiedOn = modifiedOn;
     }
 
-    public UserModel getDeletedBy() {
+    public Long getDeletedBy() {
         return deletedBy;
     }
 
-    public void setDeletedBy(UserModel deletedBy) {
+    public void setDeletedBy(Long deletedBy) {
         this.deletedBy = deletedBy;
     }
 
@@ -129,13 +134,5 @@ public class RoleModel {
 
     public void setDeletedOn(LocalDateTime deletedOn) {
         this.deletedOn = deletedOn;
-    }
-
-    public UserModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserModel user) {
-        this.user = user;
     }
 }
