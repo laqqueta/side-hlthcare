@@ -1,16 +1,11 @@
 package com.laqqueta.healthcare.role;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.laqqueta.healthcare.user.UserModel;
+import com.laqqueta.healthcare.properties.BaseProperties;
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "m_role")
-public class RoleModel {
+public class RoleModel extends BaseProperties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,32 +16,14 @@ public class RoleModel {
     @Column(name = "code", length = 20)
     private String code;
 
-    @OneToOne(mappedBy = "role")
-    @JsonIgnore
-    private UserModel userModel;
+    public RoleModel() {
+    }
 
-    @Column(name = "is_deleted", nullable = false)
-    @ColumnDefault("false")
-    private boolean isDeleted;
-
-    @Column(name = "created_by", nullable = false)
-    private Long createdBy;
-
-    @Column(name = "created_on", nullable = false)
-    @CreationTimestamp
-    private LocalDateTime createdOn;
-
-    @Column(name = "modified_by")
-    private Long modifiedBy;
-
-    @Column(name = "modified_on")
-    private LocalDateTime modifiedOn;
-
-    @Column(name = "deleted_by")
-    private Long deletedBy;
-
-    @Column(name = "deleted_on")
-    private LocalDateTime deletedOn;
+    public RoleModel(Long id, String name, String code) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+    }
 
     public Long getId() {
         return id;
@@ -72,67 +49,5 @@ public class RoleModel {
         this.code = code;
     }
 
-    public UserModel getUserModel() {
-        return userModel;
-    }
 
-    public void setUserModel(UserModel userModel) {
-        this.userModel = userModel;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public Long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public Long getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(Long modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public LocalDateTime getModifiedOn() {
-        return modifiedOn;
-    }
-
-    public void setModifiedOn(LocalDateTime modifiedOn) {
-        this.modifiedOn = modifiedOn;
-    }
-
-    public Long getDeletedBy() {
-        return deletedBy;
-    }
-
-    public void setDeletedBy(Long deletedBy) {
-        this.deletedBy = deletedBy;
-    }
-
-    public LocalDateTime getDeletedOn() {
-        return deletedOn;
-    }
-
-    public void setDeletedOn(LocalDateTime deletedOn) {
-        this.deletedOn = deletedOn;
-    }
 }

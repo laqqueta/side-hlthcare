@@ -1,16 +1,13 @@
 package com.laqqueta.healthcare.biodata;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.laqqueta.healthcare.user.UserModel;
+import com.laqqueta.healthcare.properties.BaseProperties;
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "m_biodata")
-public class BiodataModel {
+public class BiodataModel extends BaseProperties {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,32 +24,16 @@ public class BiodataModel {
     @Column(name = "image_path")
     private String imagePath;
 
-    @OneToOne(mappedBy = "biodata")
-    @JsonIgnore
-    private UserModel userModel;
+    public BiodataModel() {
+    }
 
-    @Column(name = "is_deleted", nullable = false)
-    @ColumnDefault("false")
-    private boolean isDeleted;
-
-    @Column(name = "created_by", nullable = false)
-    private Long createdBy;
-
-    @Column(name = "created_on", nullable = false)
-    @CreationTimestamp
-    private LocalDateTime createdOn;
-
-    @Column(name = "modified_by")
-    private Long modifiedBy;
-
-    @Column(name = "modified_on")
-    private LocalDateTime modifiedOn;
-
-    @Column(name = "deleted_by")
-    private Long deletedBy;
-
-    @Column(name = "deleted_on")
-    private LocalDateTime deletedOn;
+    public BiodataModel(Long id, String fullName, String mobilePhone, byte[] image, String imagePath) {
+        this.id = id;
+        this.fullName = fullName;
+        this.mobilePhone = mobilePhone;
+        this.image = image;
+        this.imagePath = imagePath;
+    }
 
     public Long getId() {
         return id;
@@ -94,67 +75,14 @@ public class BiodataModel {
         this.imagePath = imagePath;
     }
 
-    public UserModel getUserModel() {
-        return userModel;
-    }
-
-    public void setUserModel(UserModel userModel) {
-        this.userModel = userModel;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public Long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public Long getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(Long modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public LocalDateTime getModifiedOn() {
-        return modifiedOn;
-    }
-
-    public void setModifiedOn(LocalDateTime modifiedOn) {
-        this.modifiedOn = modifiedOn;
-    }
-
-    public Long getDeletedBy() {
-        return deletedBy;
-    }
-
-    public void setDeletedBy(Long deletedBy) {
-        this.deletedBy = deletedBy;
-    }
-
-    public LocalDateTime getDeletedOn() {
-        return deletedOn;
-    }
-
-    public void setDeletedOn(LocalDateTime deletedOn) {
-        this.deletedOn = deletedOn;
+    @Override
+    public String toString() {
+        return "BiodataModel{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", image=" + Arrays.toString(image) +
+                ", imagePath='" + imagePath + '\'' +
+                '}';
     }
 }
