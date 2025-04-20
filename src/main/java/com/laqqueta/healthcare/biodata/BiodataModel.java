@@ -74,15 +74,4 @@ public class BiodataModel extends BaseProperties {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
-
-    @Override
-    public String toString() {
-        return "BiodataModel{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", mobilePhone='" + mobilePhone + '\'' +
-                ", image=" + Arrays.toString(image) +
-                ", imagePath='" + imagePath + '\'' +
-                '}';
-    }
 }

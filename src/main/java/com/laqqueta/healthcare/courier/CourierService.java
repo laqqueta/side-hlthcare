@@ -1,11 +1,13 @@
 package com.laqqueta.healthcare.courier;
 
-import com.laqqueta.healthcare.courier.mapper.CourierDetailMapper;
+import com.laqqueta.healthcare.courier.dto.CourierDTO;
+import com.laqqueta.healthcare.courier.dto.CourierDetailDTO;
+import com.laqqueta.healthcare.courier.dto.CourierRequestDTO;
 import com.laqqueta.healthcare.courier.mapper.CourierMapper;
-import com.laqqueta.healthcare.courier.mapper.CourierRequest;
 import com.laqqueta.healthcare.user.UserModel;
 import com.laqqueta.healthcare.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,51 +21,52 @@ public class CourierService {
 
     private final CourierRepository courierRepository;
     private final UserRepository userRepository;
+    private final CourierMapper mapper;
 
-    public CourierService(CourierRepository courierRepository, UserRepository userRepository) {
+    @Autowired
+    public CourierService(CourierRepository courierRepository, UserRepository userRepository, CourierMapper mapper) {
         this.courierRepository = courierRepository;
         this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
-    @Transactional
-    public CourierMapper getById(Long id) {
+    public CourierDTO getById(Long id) {
         Optional<CourierModel> courier = courierRepository.findByIdAndDeleted(id, false);
 
         if (courier.isEmpty())
             throw new EntityNotFoundException("Courier with id %s doesn't exists".formatted(id));
 
-        return CourierMapper.map(courier.get());
+        return mapper.map(courier.get());
     }
 
-    @Transactional
-    public CourierDetailMapper getDetailedById(Long id) {
+    public CourierDetailDTO getDetailedById(Long id) {
         Optional<CourierModel> courier = courierRepository.findByIdAndDeleted(id, false);
 
         if (courier.isEmpty())
             throw new EntityNotFoundException("Courier with id %s doesn't exists".formatted(id));
 
-        return CourierDetailMapper.map(courier.get());
+        return mapper.mapDetails(courier.get());
     }
 
     @Transactional
-    public CourierMapper createCourier(CourierRequest courier) {
+    public CourierDTO createCourier(CourierRequestDTO courier) {
         Optional<UserModel> user = userRepository.findByIdAndDeleted(courier.createBy(), false);
 
         if (user.isEmpty())
             throw new EntityNotFoundException("User with id %s doesn't exists".formatted(courier.createBy()));
 
-        CourierModel model = CourierRequest.toModel(courier);
+        CourierModel model = mapper.mapRequest(courier);
 
         model.setCreatedBy(user.get());
         model.setCreatedOn(LocalDateTime.now());
         model.setDeleted(false);
 
-        return CourierMapper.map(
+        return mapper.map(
                 courierRepository.save(model));
     }
 
     @Transactional
-    public CourierMapper updateCourier(CourierRequest courierPayload) {
+    public CourierDTO updateCourier(CourierRequestDTO courierPayload) {
         Optional<UserModel> user = userRepository.findByIdAndDeleted(courierPayload.modifiedBy(), false);
 
         if (user.isEmpty())
@@ -80,12 +83,12 @@ public class CourierService {
         model.setModifiedBy(user.get());
         model.setModifiedOn(LocalDateTime.now());
 
-        return CourierMapper.map(
+        return mapper.map(
                 courierRepository.save(model));
     }
 
     @Transactional
-    public void deleteCourier(CourierRequest courierPayload) {
+    public void deleteCourier(CourierRequestDTO courierPayload) {
         Optional<UserModel> user = userRepository.findByIdAndDeleted(courierPayload.deletedBy(), false);
 
         if (user.isEmpty())
@@ -105,8 +108,8 @@ public class CourierService {
         courierRepository.save(model);
     }
 
-    public Page<CourierMapper> getAllCourier(Pageable pageable) {
+    public Page<CourierDTO> getAllCourier(Pageable pageable) {
         Page<CourierModel> couriers = courierRepository.findAllByDeleted(false, pageable);
-        return couriers.map(CourierMapper::map);
+        return couriers.map(mapper::map);
     }
 }

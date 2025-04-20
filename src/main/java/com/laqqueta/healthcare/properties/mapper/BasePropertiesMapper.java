@@ -31,7 +31,7 @@ public record BasePropertiesMapper(Boolean deleted,
     }
 
     /**
-     * Method helper for test that require BaseProperties
+     * Method helper for test that require BaseProperties 
      */
     public static BasePropertiesMapper initNull() {
         return new BasePropertiesMapper(null,

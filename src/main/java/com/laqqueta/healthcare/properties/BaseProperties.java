@@ -1,6 +1,5 @@
 package com.laqqueta.healthcare.properties;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laqqueta.healthcare.user.UserModel;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -11,26 +10,23 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class BaseProperties {
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", referencedColumnName = "id")
-    @JsonIgnore
     private UserModel createdBy;
 
     @Column(name = "created_on", nullable = false)
     @CreationTimestamp
     private LocalDateTime createdOn;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "modified_by", referencedColumnName = "id")
-    @JsonIgnore
     private UserModel modifiedBy;
 
     @Column(name = "modified_on")
     private LocalDateTime modifiedOn;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "deleted_by", referencedColumnName = "id")
-    @JsonIgnore
     private UserModel deletedBy;
 
     @Column(name = "deleted_on")

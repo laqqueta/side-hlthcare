@@ -1,8 +1,8 @@
 package com.laqqueta.healthcare.courier;
 
-import com.laqqueta.healthcare.courier.mapper.CourierDetailMapper;
-import com.laqqueta.healthcare.courier.mapper.CourierMapper;
-import com.laqqueta.healthcare.courier.mapper.CourierRequest;
+import com.laqqueta.healthcare.courier.dto.CourierDTO;
+import com.laqqueta.healthcare.courier.dto.CourierDetailDTO;
+import com.laqqueta.healthcare.courier.dto.CourierRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class CourierController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCourierById(@PathVariable Long id) {
-        CourierMapper courier = courierService.getById(id);
+        CourierDTO courier = courierService.getById(id);
 
         return new ResponseEntity<>(
                 courier, HttpStatus.OK);
@@ -27,30 +27,30 @@ public class CourierController {
 
     @GetMapping("/{id}/detail")
     public ResponseEntity<?> getDetailCourierById(@PathVariable Long id) {
-        CourierDetailMapper courier = courierService.getDetailedById(id);
+        CourierDetailDTO courier = courierService.getDetailedById(id);
 
         return new ResponseEntity<>(
                 courier, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveCourier(@RequestBody CourierRequest courierRequest) {
-        CourierMapper savedCourier = courierService.createCourier(courierRequest);
+    public ResponseEntity<?> saveCourier(@RequestBody CourierRequestDTO courierRequest) {
+        CourierDTO savedCourier = courierService.createCourier(courierRequest);
 
         return new ResponseEntity<>(
                 savedCourier, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<?> updateCourier(@RequestBody CourierRequest courierRequest) {
-        CourierMapper updatedCourier = courierService.updateCourier(courierRequest);
+    public ResponseEntity<?> updateCourier(@RequestBody CourierRequestDTO courierRequest) {
+        CourierDTO updatedCourier = courierService.updateCourier(courierRequest);
 
         return new ResponseEntity<>(
                 updatedCourier, HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteCourier(@RequestBody CourierRequest courierRequest) {
+    public ResponseEntity<?> deleteCourier(@RequestBody CourierRequestDTO courierRequest) {
         courierService.deleteCourier(courierRequest);
 
         return new ResponseEntity<>(HttpStatus.OK);

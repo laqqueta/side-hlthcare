@@ -1,80 +1,66 @@
 package com.laqqueta.healthcare.mapper;
 
+import com.laqqueta.healthcare.role.RoleMapper;
 import com.laqqueta.healthcare.role.RoleModel;
-import com.laqqueta.healthcare.role.mapper.RoleMapper;
-import org.assertj.core.api.SoftAssertions;
+import com.laqqueta.healthcare.role.dto.RoleDTO;
+import com.laqqueta.healthcare.role.dto.RoleDetailsDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class RoleMapperTests {
 
-    @Test
-    public void map_WhenRoleModelExists_ReturnsRoleMapper() {
+    private RoleMapper roleMapper;
+    private RoleModel roleModel;
+    private RoleDTO expectedDTO;
+    private RoleDetailsDTO expectedDetailDTO;
 
-        RoleModel actualModel = new RoleModel(1L, "ROLE TEST", "ROLETEST001");
-        RoleMapper mockMappedModel = new RoleMapper(1L, "ROLE TEST", "ROLETEST001");
+    @BeforeEach
+    void setUp() {
+        roleMapper = Mappers.getMapper(RoleMapper.class);
+        SetupBasePropertiesDtoData data = new SetupBasePropertiesDtoData();
+        roleModel = new RoleModel();
 
-        RoleMapper mappedModel = RoleMapper.map(actualModel);
+        roleModel.setId(1L);
+        roleModel.setName("Role Name");
+        roleModel.setCode("ROLECODE");
+        roleModel.setDeleted(false);
+        roleModel.setCreatedBy(data.getCreatedBy());
+        roleModel.setCreatedOn(data.getDate());
+        roleModel.setModifiedBy(data.getModifiedBy());
+        roleModel.setModifiedOn(data.getDate());
 
-        SoftAssertions.assertSoftly(s -> {
-            s.assertThat(mappedModel)
-                    .usingRecursiveComparison()
-                    .comparingOnlyFields("id", "name", "code")
-                    .isEqualTo(actualModel);
-
-            s.assertThat(mappedModel)
-                    .isEqualTo(mockMappedModel);
-        });
+        expectedDTO = new RoleDTO(1L, "Role Name", "ROLECODE");
+        expectedDetailDTO = new RoleDetailsDTO(1L, "Role Name", "ROLECODE", data.getBasePropertiesDTO());
     }
 
-    @Test
-    public void map_WhenRoleModelNull_ReturnsNullOnCourierMapper() {
-        // Arrange
-        RoleModel actualRoleModel = null;
-        // Act
-        RoleMapper roleMapper = RoleMapper.map(actualRoleModel);
-        // Assertions
-        SoftAssertions.assertSoftly(s -> {
-            s.assertThat(roleMapper).isNull();
-            s.assertThat(roleMapper).usingRecursiveComparison()
-                    .isEqualTo(actualRoleModel);
-        });
+    @Test void map_ShouldMapRoleModelToRoleDTO() {
+
     }
 
-    @Test
-    public void map_WhenRoleModelIsEmptyObject_ReturnsEmptyObjectOnCourierMapper() {
-        RoleModel actualRoleModel = new RoleModel(null, null, null);
-        RoleMapper mockEmptyMapper = new RoleMapper(null, null, null);
+    @Test void map_ShouldReturnsNullOnFieldsWhenRoleHaveNullsFields() {
 
-        RoleMapper mappedModel = RoleMapper.map(actualRoleModel);
-
-        SoftAssertions.assertSoftly(s -> {
-            s.assertThat(mappedModel).isEqualTo(mockEmptyMapper);
-            s.assertThat(mappedModel).usingRecursiveComparison()
-                    .isEqualTo(actualRoleModel);
-        });
     }
 
-    @Test
-    public void map_WhenRoleModelHaveNullFields_ReturnNullOnCourierMapperNullFields() {
-        RoleModel actualRoleModel = new RoleModel(1L, null, "ROLECODE");
-        RoleMapper mockNullFields = new RoleMapper(1L, null, "ROLECODE");
+    @Test void map_ShouldReturnNullsWhenRoleModelIsNull() {
 
-        RoleMapper mappedModel = RoleMapper.map(actualRoleModel);
-
-        SoftAssertions.assertSoftly(s -> {
-            s.assertThat(mappedModel)
-                    .isEqualTo(mockNullFields);
-
-            s.assertThat(mappedModel)
-                    .usingRecursiveComparison()
-                    .isEqualTo(actualRoleModel);
-
-            s.assertThat(mappedModel.name())
-                    .isNull();
-        });
     }
+
+    @Test void mapDetails_ShouldMapRoleModelToRoleDetailsDTO() {
+
+    }
+
+    @Test void mapDetails_ShouldReturnsNullOnFieldsWhenRoleHaveNullsFields() {
+
+    }
+
+    @Test void mapDetails_ShouldReturnsNullsWhenRoleModelIsNull() {
+
+    }
+
+
 
 }

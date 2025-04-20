@@ -1,5 +1,7 @@
 package com.laqqueta.healthcare.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.laqqueta.healthcare.biodata.BiodataModel;
 import com.laqqueta.healthcare.properties.BaseProperties;
 import com.laqqueta.healthcare.role.RoleModel;
@@ -14,11 +16,11 @@ public class UserModel extends BaseProperties {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private RoleModel role;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinColumn(name = "biodata_id", referencedColumnName = "id")
     private BiodataModel biodata;
 
@@ -26,6 +28,7 @@ public class UserModel extends BaseProperties {
     private String email;
 
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     @Column(name = "is_locked")
